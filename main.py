@@ -4,6 +4,7 @@ from app.services.listar import listar
 from app.services.atualizar import atualizar
 from app.services.incident_service import listar_incidentes
 from app.utils.limpar import limpar
+from app.utils.export import exportar
 
 def pausa():
     input('Pressione Enter para continuar...')
@@ -34,7 +35,7 @@ async def main():
             print('Opção 4 ainda não implementada.')
             pausa()
         elif opcao == '5':
-            print('Opção 5 ainda não implementada.')
+            await exportar()
             pausa()
         elif opcao == '6':
             print('Encerrando...')
