@@ -33,7 +33,6 @@ async def atualizar_incidente(id_incidente, novo_status):
     con = await connection()
     try: 
         async with con.cursor() as c:
-            # Verifica se o incidente existe
             await c.execute('SELECT id FROM incidentes WHERE id = %s', (id_incidente,))
             resultado = await c.fetchone()
             
@@ -48,5 +47,19 @@ async def atualizar_incidente(id_incidente, novo_status):
             print('Incidente atualizado com sucesso!')
     except Exception as e:
         print(f'Erro ao atualizar o incidente: {e}')
+    finally:
+        await con.ensure_closed()
+
+
+async def filtrar_incidentes(status):
+    con = await connection()
+    try: 
+        async with con.cursor() as c:
+            await c.execute('SELECT * FROM incidentes WHERE status = %s', (status,))
+            resultados = await c.fetchall()
+            return resultados
+    except Exception as e:
+        print(f'Erro ao listar os incidentes: {e}')
+        return []
     finally:
         await con.ensure_closed()

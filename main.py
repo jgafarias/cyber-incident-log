@@ -1,6 +1,7 @@
 import asyncio
 from app.services.inserir import inserir
 from app.services.listar import listar
+from app.services.filtrar import filtrar
 from app.services.atualizar import atualizar
 from app.services.incident_service import listar_incidentes
 from app.utils.limpar import limpar
@@ -32,7 +33,7 @@ async def main():
             await atualizar()
             pausa()
         elif opcao == '4':
-            print('Opção 4 ainda não implementada.')
+            await filtrar()
             pausa()
         elif opcao == '5':
             await exportar()
