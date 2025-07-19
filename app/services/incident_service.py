@@ -21,19 +21,32 @@ async def listar_incidentes():
             sql = 'SELECT * FROM incidentes'
             await c.execute(sql)
             resultados = await c.fetchall()
-            
-            if not resultados:
-                print('Nenhum incidente encontrado.')
-                return
-            
-            print(f'{'ID': <3} | {'Tipo':<15} | {'Data':<10} | {'IP Origem':<15} | {'Status':<10} | Descrição')
-            print('-' * 80)
-            
-            for incidente in resultados:
-                id_, tipo, data, ip, status, descricao = incidente
-                print(f'{id_: <3} | {tipo:<15} | {str(data):<10} | {ip:<15} | {status:<10} | {descricao}')
-            
+
+            return resultados
     except Exception as e:
         print(f'Erro ao listar os incidentes: {e}')
+        return []
+    finally:
+        await con.ensure_closed()
+        
+async def atualizar_incidente(id_incidente, novo_status):
+    con = await connection()
+    try: 
+        async with con.cursor() as c:
+            # Verifica se o incidente existe
+            await c.execute('SELECT id FROM incidentes WHERE id = %s', (id_incidente,))
+            resultado = await c.fetchone()
+            
+            if not resultado:
+                print(f'Incidente com ID {id_incidente} não encontrado.')
+                return
+
+            # Atualiza o status
+            sql = 'UPDATE incidentes SET status = %s WHERE id = %s'
+            await c.execute(sql, (novo_status, id_incidente))
+            await con.commit()
+            print('Incidente atualizado com sucesso!')
+    except Exception as e:
+        print(f'Erro ao atualizar o incidente: {e}')
     finally:
         await con.ensure_closed()
