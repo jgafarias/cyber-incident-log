@@ -47,9 +47,9 @@ Sistema simples para registrar e gerenciar incidentes de segurança da informaç
    ```bash
     app/  
     ├── db/                   # Configuração do banco de dados  
-    ├── services/             # Lógica de negócios (inserir, listar incidentes)  
-    ├── tests/                # Testes automatizados  
-    ├── utils/                # Utilitários, como exportação de dados  
+    ├── services/             # Lógica de negócios (inserir, listar, atualizar incidentes)  
+    ├── tests/                # Testes para inserir dados no banco
+    ├── utils/                # Utilitários, como exportação de dados e limpar o terminal  
     main.py                  # Arquivo principal para rodar o app  
     db.sql                   # Script para criar banco e tabelas  
     .gitignore               # Arquivos ignorados pelo git  
